@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>_metadata</key>
+	<dict>
+		<key>created_by</key>
+		<string>ladmin</string>
+		<key>creation_date</key>
+		<date>2015-02-04T21:32:50Z</date>
+		<key>munki_version</key>
+		<string>2.1.0.2338</string>
+		<key>os_version</key>
+		<string>10.9.5</string>
+	</dict>
+	<key>autoremove</key>
+	<false/>
+	<key>catalogs</key>
+	<array>
+		<string>LBDS</string>
+	</array>
+	<key>category</key>
+	<string>Profiles</string>
+	<key>description</key>
+	<string></string>
+	<key>developer</key>
+	<string>LBDS</string>
+	<key>display_name</key>
+	<string>LBDS Background</string>
+	<key>installcheck_script</key>
+	<string>#!/bin/sh
+
+### Check to see if the file "LBDS.jpg" exists
+if [ -e /Library/Desktop\ Pictures/LBDS.jpg ]; then
+	### File exists, we can exit 1 since nothing needs to be done.
+	exit 1;
+else
+	### File does not exist, we will exit 0 so that it gets re-installed.
+	exit 0;
+fi</string>
+	<key>installed_size</key>
+	<integer>684801</integer>
+	<key>installer_item_hash</key>
+	<string>49b58e4162cb60bc61d13a66a6994bab34781e7fe2dd5d4305a761b46008bbc2</string>
+	<key>installer_item_location</key>
+	<string>profiles/LBDS Background.pkg</string>
+	<key>installer_item_size</key>
+	<integer>252</integer>
+	<key>minimum_os_version</key>
+	<string>10.5.0</string>
+	<key>name</key>
+	<string>LBDS Background</string>
+	<key>receipts</key>
+	<array>
+		<dict>
+			<key>installed_size</key>
+			<integer>684801</integer>
+			<key>packageid</key>
+			<string>iphoto9.4.3.payload.pkg</string>
+			<key>version</key>
+			<string>1</string>
+		</dict>
+	</array>
+	<key>unattended_install</key>
+	<true/>
+	<key>uninstall_method</key>
+	<string>removepackages</string>
+	<key>uninstallable</key>
+	<true/>
+	<key>version</key>
+	<string>1</string>
+</dict>
+</plist>
