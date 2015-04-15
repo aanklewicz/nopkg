@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>_metadata</key>
+	<dict>
+		<key>created_by</key>
+		<string>dbuczek</string>
+		<key>creation_date</key>
+		<date>2014-12-05T19:11:56Z</date>
+		<key>munki_version</key>
+		<string>2.0.1.2253</string>
+		<key>os_version</key>
+		<string>10.9.4</string>
+	</dict>
+	<key>autoremove</key>
+	<false/>
+	<key>catalogs</key>
+	<array>
+		<string>LBDS</string>
+	</array>
+	<key>category</key>
+	<string>Profiles</string>
+	<key>developer</key>
+	<string>LBDS</string>
+	<key>display_name</key>
+	<string>Enable Disk Journaling</string>
+	<key>icon_name</key>
+	<string>Disk Utility.png</string>
+	<key>installcheck_script</key>
+	<string>#!/bin/sh
+
+### Check to see if the word "Journal" exists when doing a diskutil info check on the "/" drive.
+
+JOURNALED=`/usr/sbin/diskutil info / | grep -a -m 1 Journal | head -1`;
+
+if [ -z "$JOURNALED" ]; then
+	### Variable is empty
+	### Exit 0 since the script needs to be run.
+	echo "Exiting 0";
+	/usr/sbin/diskutil enableJournal /;
+	exit 0;
+else
+	### Variable is not empty, meaning journaling is present.  Exit 1 to skip script.
+	echo "Exiting 1";
+	exit 1;
+fi</string>
+	<key>installer_type</key>
+	<string>nopkg</string>
+	<key>minimum_os_version</key>
+	<string>10.4.0</string>
+	<key>name</key>
+	<string>Enable Disk Journaling</string>
+	<key>postinstall_script</key>
+	<string>/usr/sbin/diskutil enableJournal /</string>
+	<key>unattended_install</key>
+	<true/>
+	<key>uninstall_method</key>
+	<string>uninstall_script</string>
+	<key>uninstallable</key>
+	<false/>
+	<key>version</key>
+	<string>1.3</string>
+</dict>
+</plist>
