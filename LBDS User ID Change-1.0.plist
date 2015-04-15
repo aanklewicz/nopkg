@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>_metadata</key>
+	<dict>
+		<key>created_by</key>
+		<string>dbuczek</string>
+		<key>creation_date</key>
+		<date>2014-12-05T19:11:56Z</date>
+		<key>munki_version</key>
+		<string>2.0.1.2253</string>
+		<key>os_version</key>
+		<string>10.9.4</string>
+	</dict>
+	<key>autoremove</key>
+	<false/>
+	<key>catalogs</key>
+	<array>
+		<string>LBDS</string>
+	</array>
+	<key>category</key>
+	<string>Profiles</string>
+	<key>developer</key>
+	<string>LBDS</string>
+	<key>display_name</key>
+	<string>LBDS User ID Change</string>
+	<key>installcheck_script</key>
+	<string>#!/bin/sh
+
+### Check to see if the word "Journal" exists when doing a diskutil info check on the "/" drive.
+
+USERID=`dscl . -read /Users/LBDS UniqueID | grep 800`;
+
+if [ -z "$USERID" ]; then
+	### Variable is empty
+	### Exit 0 since the script needs to be run.
+	echo "Exiting 0; user ID is not 800, yet";
+	exit 0;
+else
+	### Variable is not empty, meaning journaling is present.  Exit 1 to skip script.
+	echo "Exiting 1; user ID is 800, woot!";
+	exit 1;
+fi</string>
+	<key>installer_type</key>
+	<string>nopkg</string>
+	<key>minimum_os_version</key>
+	<string>10.4.0</string>
+	<key>name</key>
+	<string>LBDS User ID Change</string>
+	<key>postinstall_script</key>
+	<string>#!/bin/bash 
+
+#Change USERID to 800 from 499
+
+dscl . -change /Users/LBDS UniqueID 499 800
+
+#Change owner of files from 499 to 800
+
+find /Users/LBDS -user 499 -print0 | xargs -0 chown -h 800
+find /Library -user 499 -print0 | xargs -0 chown -h 800
+find /Applications -user 499 -print0 | xargs -0 chown -h 800
+find /usr -user 499 -print0 | xargs -0 chown -h 800
+find /private/var/ -user 499 -print0 | xargs -0 chown -h 800
+
+#copy trash over
+
+mv /.Trashes/499 /.Trashes/800</string>
+	<key>unattended_install</key>
+	<true/>
+	<key>uninstall_method</key>
+	<string>uninstall_script</string>
+	<key>uninstallable</key>
+	<false/>
+	<key>version</key>
+	<string>1.0</string>
+</dict>
+</plist>
