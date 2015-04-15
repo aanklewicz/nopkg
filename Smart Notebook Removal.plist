@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>_metadata</key>
+	<dict>
+		<key>created_by</key>
+		<string>dbuczek</string>
+		<key>creation_date</key>
+		<date>2014-12-05T19:11:56Z</date>
+		<key>munki_version</key>
+		<string>2.0.1.2253</string>
+		<key>os_version</key>
+		<string>10.9.4</string>
+	</dict>
+	<key>autoremove</key>
+	<false/>
+	<key>catalogs</key>
+	<array>
+		<string>LBDS</string>
+	</array>
+	<key>category</key>
+	<string>Profiles</string>
+	<key>developer</key>
+	<string>LBDS</string>
+	<key>display_name</key>
+	<string>Smart Notebook Removal</string>
+	<key>icon_name</key>
+	<string>Smart Education.png</string>
+	<key>installcheck_script</key>
+	<string>#!/bin/sh
+
+### Check to see if the file "Notebook.app" exists
+if [ -e /Applications/SMART\ Technologies/Notebook.app ]; then
+	### File exists, we need to exit 0 so that the script to remove it can run.
+	exit 0;
+else
+	### File does not exist, we exit 1 since nothing needs to be done.
+	exit 1;
+fi</string>
+	<key>installer_type</key>
+	<string>nopkg</string>
+	<key>minimum_os_version</key>
+	<string>10.4.0</string>
+	<key>name</key>
+	<string>Smart Notebook Removal</string>
+	<key>postinstall_script</key>
+	<string>/Applications/SMART\ Technologies/SMART\ Uninstaller.app/Contents/Resources/uninstall --all</string>
+	<key>unattended_install</key>
+	<true/>
+	<key>uninstall_method</key>
+	<string>uninstall_script</string>
+	<key>uninstallable</key>
+	<true/>
+	<key>version</key>
+	<string>1.0</string>
+</dict>
+</plist>
