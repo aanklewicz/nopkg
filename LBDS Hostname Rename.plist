@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>_metadata</key>
+	<dict>
+		<key>created_by</key>
+		<string>dbuczek</string>
+		<key>creation_date</key>
+		<date>2014-12-05T19:11:56Z</date>
+		<key>munki_version</key>
+		<string>2.0.1.2253</string>
+		<key>os_version</key>
+		<string>10.9.4</string>
+	</dict>
+	<key>autoremove</key>
+	<false/>
+	<key>catalogs</key>
+	<array>
+		<string>LBDS</string>
+	</array>
+	<key>category</key>
+	<string>Profiles</string>
+	<key>description</key>
+	<string>Changes computer name</string>
+	<key>developer</key>
+	<string>LBDS</string>
+	<key>display_name</key>
+	<string>LBDS Hostname Rename</string>
+	<key>force_install_after_date</key>
+	<date>2015-05-04T18:00:00Z</date>
+	<key>installcheck_script</key>
+	<string>#!/bin/bash 
+
+# This script is designed to determine whether a computer needs to be renamed.
+# It is designed to check to see whether the computer name value begins with either "NC or "SC".
+# If so then the script needs to run.
+
+# This script relies on the actual renaming script to make sure that no computers have names that has a second character of "C".
+# (At present the only allowed values for the second character are "A, F, S, I, and P.)
+
+NAME=$(scutil --get ComputerName);
+
+if [[ $NAME == NC* ]] || [[ $NAME == SC* ]]; then
+	echo "Computer Name of" $NAME "begins with either NC or SC.";
+	echo "We need to exit 0 so that the script can run."
+	exit 0;
+else
+	echo "Computer Name of" $NAME "does NOT begin with either NC or SC.";
+	echo "We need to exit 1 as the script either does not need to be run, or the computer name has been configured incorrectly and the script will not work."
+	exit 1;
+fi</string>
+	<key>installer_type</key>
+	<string>nopkg</string>
+	<key>minimum_os_version</key>
+	<string>10.4.0</string>
+	<key>name</key>
+	<string>LBDS Hostname Rename</string>
+	<key>postinstall_script</key>
+	<string>#!/bin/bash
+
+# Naming structure
+# ABCCDDDD
+# 
+# A = Campus (N or S)
+# B = User - Admin Staff (A), Faculty (F), Student (S), IT (I), Presentation (P)
+# CC = Location - Mobile (MB), Desktop (DE), Sr. Lab (SL), Jr. Lab (JL), Design (DI), Computer Lab (CL), Library (LI), Cart (CA)
+# DDDD = Unique Identifier 
+
+if [ "$(scutil --get ComputerName)" == 'NCMBCK' ]; then
+	NAME="NIMB0001"
+elif [ "$(scutil --get ComputerName)" == 'NCIM02' ]; then
+	NAME="NADE0001"
+elif [ "$(scutil --get ComputerName)" == 'NCMM03' ]; then
+	NAME="NADE0002"
+elif [ "$(scutil --get ComputerName)" == 'NCMM04' ]; then
+	NAME="NADE0003"
+elif [ "$(scutil --get ComputerName)" == 'NCMB86' ]; then
+	NAME="NADE0004"
+elif [ "$(scutil --get ComputerName)" == 'NCMB87' ]; then
+	NAME="NAMB0001"
+elif [ "$(scutil --get ComputerName)" == 'NCMBAQ' ]; then
+	NAME="NAMB0002"
+elif [ "$(scutil --get ComputerName)" == 'NCMBAS' ]; then
+	NAME="NAMB0003"
+elif [ "$(scutil --get ComputerName)" == 'NCMBBM' ]; then
+	NAME="NAMB0004"
+elif [ "$(scutil --get ComputerName)" == 'NCMBBO' ]; then
+	NAME="NAMB0005"
+elif [ "$(scutil --get ComputerName)" == 'NCMBCI' ]; then
+	NAME="NAMB0006"
+elif [ "$(scutil --get ComputerName)" == 'NCMBCH' ]; then
+	NAME="NAMB0007"
+elif [ "$(scutil --get ComputerName)" == 'NCMBBS' ]; then
+	NAME="NAMB0008"
+elif [ "$(scutil --get ComputerName)" == 'NCMBBP' ]; then
+	NAME="NAMB0009"
+elif [ "$(scutil --get ComputerName)" == 'NCMBCG' ]; then
+	NAME="NAMB0010"
+elif [ "$(scutil --get ComputerName)" == 'NCMBCJ' ]; then
+	NAME="NAMB0011"
+elif [ "$(scutil --get ComputerName)" == 'NCMBAE' ]; then
+	NAME="NAMB0012"
+elif  [ "$(scutil --get ComputerName)" == 'SCMB98' ]; then
+	NAME="NAMB0013"
+elif [ "$(scutil --get ComputerName)" == 'NCIM14' ]; then
+	NAME="NFDE0001"
+elif [ "$(scutil --get ComputerName)" == 'NCIM61' ]; then
+	NAME="NFDE0002"
+elif [ "$(scutil --get ComputerName)" == 'NCMBBF' ]; then
+	NAME="NFMBLOAN"
+elif [ "$(scutil --get ComputerName)" == 'NCMBCW' ]; then
+	NAME="NFMB0001"
+elif [ "$(scutil --get ComputerName)" == 'NCMBBU' ]; then
+	NAME="NFMB0002"
+elif [ "$(scutil --get ComputerName)" == 'NCMBAL' ]; then
+	NAME="NFMB0003"
+elif [ "$(scutil --get ComputerName)" == 'NCMBAP' ]; then
+	NAME="NFMB0004"
+elif [ "$(scutil --get ComputerName)" == 'NCMBCX' ]; then
+	NAME="NFMB0005"
+elif [ "$(scutil --get ComputerName)" == 'NCMBBT' ]; then
+	NAME="NFMB0006"
+elif [ "$(scutil --get ComputerName)" == 'NCMBAO' ]; then
+	NAME="NFMB0007"
+elif [ "$(scutil --get ComputerName)" == 'NCMB90' ]; then
+	NAME="NFMB0008"
+elif [ "$(scutil --get ComputerName)" == 'NCMBAR' ]; then
+	NAME="NFMB0009"
+elif [ "$(scutil --get ComputerName)" == 'NCMBCV' ]; then
+	NAME="NFMB0010"
+elif [ "$(scutil --get ComputerName)" == 'NCMBBR' ]; then
+	NAME="NFMB0011"
+elif [ "$(scutil --get ComputerName)" == 'NCMB99' ]; then
+	NAME="NFMB0012"
+elif [ "$(scutil --get ComputerName)" == 'NCMB97' ]; then
+	NAME="NFMB0013"
+elif [ "$(scutil --get ComputerName)" == 'NCMBCU' ]; then
+	NAME="NFMB0014"
+elif [ "$(scutil --get ComputerName)" == 'NCMBBZ' ]; then
+	NAME="NFMB0015"
+elif [ "$(scutil --get ComputerName)" == 'NCMBBW' ]; then
+	NAME="NFMB0016"
+elif [ "$(scutil --get ComputerName)" == 'NCMBAT' ]; then
+	NAME="NFMB0017"
+elif [ "$(scutil --get ComputerName)" == 'NCMB96' ]; then
+	NAME="NFMB0018"
+elif [ "$(scutil --get ComputerName)" == 'NCMB95' ]; then
+	NAME="NFMB0019"
+elif [ "$(scutil --get ComputerName)" == 'NCMBAX' ]; then
+	NAME="NFMB0020"
+elif [ "$(scutil --get ComputerName)" == 'NCMBAG' ]; then
+	NAME="NFMB0021"
+elif [ "$(scutil --get ComputerName)" == 'NCMBAC' ]; then
+	NAME="NFMB0022"
+elif [ "$(scutil --get ComputerName)" == 'NCMBBE' ]; then
+	NAME="NFMB0023"
+elif [ "$(scutil --get ComputerName)" == 'NCMBAK' ]; then
+	NAME="NFMB0024"
+elif [ "$(scutil --get ComputerName)" == 'NCMBAU' ]; then
+	NAME="NFMB0025"
+elif [ "$(scutil --get ComputerName)" == 'NCMBBQ' ]; then
+	NAME="NAMB0013"
+elif [ "$(scutil --get ComputerName)" == 'NCMBAF' ]; then
+	NAME="NFMB0027"
+elif [ "$(scutil --get ComputerName)" == 'NCMBAI' ]; then
+	NAME="NFMB0028"
+elif [ "$(scutil --get ComputerName)" == 'NCMBCS' ]; then
+	NAME="NFMB0029"
+elif [ "$(scutil --get ComputerName)" == 'NCMBBV' ]; then
+	NAME="NFMB0030"
+elif [ "$(scutil --get ComputerName)" == 'NCMB88' ]; then
+	NAME="NFMB0031"
+elif [ "$(scutil --get ComputerName)" == 'NCMB94' ]; then
+	NAME="NFMB0032"
+elif [ "$(scutil --get ComputerName)" == 'NCMB93' ]; then
+	NAME="NFMB0033"
+elif [ "$(scutil --get ComputerName)" == 'NCMBAH' ]; then
+	NAME="NFMB0034"
+elif [ "$(scutil --get ComputerName)" == 'NCMB98' ]; then
+	NAME="NFMB0035"
+elif [ "$(scutil --get ComputerName)" == 'NCMBAA' ]; then
+	NAME="NFMB0036"
+elif [ "$(scutil --get ComputerName)" == 'NCMBAB' ]; then
+	NAME="SFMB0050"
+elif [ "$(scutil --get ComputerName)" == 'NCMBCT' ]; then
+	NAME="NFMB0038"
+elif [ "$(scutil --get ComputerName)" == 'NCMBBX' ]; then
+	NAME="NFMB0039"
+elif [ "$(scutil --get ComputerName)" == 'NCMB58' ]; then
+	NAME="NSCA0001"
+elif [ "$(scutil --get ComputerName)" == 'NCMBAZ' ]; then
+	NAME="NSCA0002"
+elif [ "$(scutil --get ComputerName)" == 'NCMBBA' ]; then
+	NAME="NSCA0003"
+elif [ "$(scutil --get ComputerName)" == 'NCMBBC' ]; then
+	NAME="NSCA0004"
+elif [ "$(scutil --get ComputerName)" == 'NCMBBH' ]; then
+	NAME="NSCA0005"
+elif [ "$(scutil --get ComputerName)" == 'NCMBBK' ]; then
+	NAME="NSCA0006"
+elif [ "$(scutil --get ComputerName)" == 'NCMB69' ]; then
+	NAME="NSCA0007"
+elif [ "$(scutil --get ComputerName)" == 'NCMB74' ]; then
+	NAME="NSCA0008"
+elif [ "$(scutil --get ComputerName)" == 'NCMBCE' ]; then
+	NAME="NSCA0009"
+elif [ "$(scutil --get ComputerName)" == 'NCMBCF' ]; then
+	NAME="NSCA0010"
+elif [ "$(scutil --get ComputerName)" == 'NCMBCL' ]; then
+	NAME="NSCA0011"
+elif [ "$(scutil --get ComputerName)" == 'NCMBCM' ]; then
+	NAME="NSCA0012"
+elif [ "$(scutil --get ComputerName)" == 'NCMBCQ' ]; then
+	NAME="NSCA0013"
+elif [ "$(scutil --get ComputerName)" == 'NCMBCR' ]; then
+	NAME="NSCA0014"
+elif [ "$(scutil --get ComputerName)" == 'NCMBCP' ]; then
+	NAME="NSCA0015"
+elif [ "$(scutil --get ComputerName)" == 'NCMBCO' ]; then
+	NAME="NSCA0016"
+elif [ "$(scutil --get ComputerName)" == 'NCMBCN' ]; then
+	NAME="NSCA0017"
+elif [ "$(scutil --get ComputerName)" == 'NCMB55' ]; then
+	NAME="NSCA0018"
+elif [ "$(scutil --get ComputerName)" == 'NCMB78' ]; then
+	NAME="NSCA0019"
+elif [ "$(scutil --get ComputerName)" == 'NCMBBB' ]; then
+	NAME="NSCA0020"
+elif [ "$(scutil --get ComputerName)" == 'NCMBBY' ]; then
+	NAME="NSCA0021"
+elif [ "$(scutil --get ComputerName)" == 'NCMB76' ]; then
+	NAME="NSCA0022"
+elif [ "$(scutil --get ComputerName)" == 'NCMBCA' ]; then
+	NAME="NSCA0023"
+elif [ "$(scutil --get ComputerName)" == 'NCMBBD' ]; then
+	NAME="NSCA0024"
+elif [ "$(scutil --get ComputerName)" == 'NCIM31' ]; then
+	NAME="NSCL0001"
+elif [ "$(scutil --get ComputerName)" == 'NCIM32' ]; then
+	NAME="NSCL0002"
+elif [ "$(scutil --get ComputerName)" == 'NCIM33' ]; then
+	NAME="NSCL0003"
+elif [ "$(scutil --get ComputerName)" == 'NCIM34' ]; then
+	NAME="NSCL0004"
+elif [ "$(scutil --get ComputerName)" == 'NCIM35' ]; then
+	NAME="NSCL0005"
+elif [ "$(scutil --get ComputerName)" == 'NCIM36' ]; then
+	NAME="NSCL0006"
+elif [ "$(scutil --get ComputerName)" == 'NCIM37' ]; then
+	NAME="NSCL0007"
+elif [ "$(scutil --get ComputerName)" == 'NCIM38' ]; then
+	NAME="NSCL0008"
+elif [ "$(scutil --get ComputerName)" == 'NCIM39' ]; then
+	NAME="NSCL0009"
+elif [ "$(scutil --get ComputerName)" == 'NCIM40' ]; then
+	NAME="NSCL0010"
+elif [ "$(scutil --get ComputerName)" == 'NCIM41' ]; then
+	NAME="NSCL0011"
+elif [ "$(scutil --get ComputerName)" == 'NCIM42' ]; then
+	NAME="NSCL0012"
+elif [ "$(scutil --get ComputerName)" == 'NCIM43' ]; then
+	NAME="NSCL0013"
+elif [ "$(scutil --get ComputerName)" == 'NCIM44' ]; then
+	NAME="NSCL0014"
+elif [ "$(scutil --get ComputerName)" == 'NCIM45' ]; then
+	NAME="NSCL0015"
+elif [ "$(scutil --get ComputerName)" == 'NCIM46' ]; then
+	NAME="NSCL0016"
+elif [ "$(scutil --get ComputerName)" == 'NCIM47' ]; then
+	NAME="NSCL0017"
+elif [ "$(scutil --get ComputerName)" == 'NCIM48' ]; then
+	NAME="NSCL0018"
+elif [ "$(scutil --get ComputerName)" == 'NCIM49' ]; then
+	NAME="NSCL0019"
+elif [ "$(scutil --get ComputerName)" == 'NCIM50' ]; then
+	NAME="NSCL0020"
+elif [ "$(scutil --get ComputerName)" == 'NCIM51' ]; then
+	NAME="NSCL0021"
+elif [ "$(scutil --get ComputerName)" == 'NCIM52' ]; then
+	NAME="NSCL0022"
+elif [ "$(scutil --get ComputerName)" == 'NCIM53' ]; then
+	NAME="NSCL0023"
+elif [ "$(scutil --get ComputerName)" == 'NCIM54' ]; then
+	NAME="NSCL0024"
+elif [ "$(scutil --get ComputerName)" == 'NCIM55' ]; then
+	NAME="NSCL0025"
+elif [ "$(scutil --get ComputerName)" == 'NCIM56' ]; then
+	NAME="NSCL0026"
+elif [ "$(scutil --get ComputerName)" == 'NCIM57' ]; then
+	NAME="NSLI0001"
+elif [ "$(scutil --get ComputerName)" == 'NCIM58' ]; then
+	NAME="NSLI0002"
+elif [ "$(scutil --get ComputerName)" == 'NCIM59' ]; then
+	NAME="NSLI0003"
+elif [ "$(scutil --get ComputerName)" == 'NCIM60' ]; then
+	NAME="NSLI0004"
+elif [ "$(scutil --get ComputerName)" == 'SCMBAO' ]; then
+	NAME="SAMB0001"
+elif [ "$(scutil --get ComputerName)" == 'SCMBAI' ]; then
+	NAME="SAMB0002"
+elif [ "$(scutil --get ComputerName)" == 'SCMBAL' ]; then
+	NAME="SAMB0003"
+elif [ "$(scutil --get ComputerName)" == 'SCMBCA' ]; then
+	NAME="SAMB0004"
+elif [ "$(scutil --get ComputerName)" == 'NCMBBN' ]; then
+	NAME="SAMB0005"
+elif [ "$(scutil --get ComputerName)" == 'SCMBAH' ]; then
+	NAME="SAMB0006"
+elif [ "$(scutil --get ComputerName)" == 'SCMBBC' ]; then
+	NAME="SAMB0007"
+elif [ "$(scutil --get ComputerName)" == 'SCMBBB' ]; then
+	NAME="SAMB0008"
+elif [ "$(scutil --get ComputerName)" == 'SCIM64' ]; then
+	NAME="SFDE0001"
+elif [ "$(scutil --get ComputerName)" == 'NCIM62' ]; then
+	NAME="NFDE0003"
+elif [ "$(scutil --get ComputerName)" == 'SCMB61' ]; then
+	NAME="SFMB0001"
+elif [ "$(scutil --get ComputerName)" == 'SCMBAB' ]; then
+	NAME="SFMB0002"
+elif [ "$(scutil --get ComputerName)" == 'SCMBAF' ]; then
+	NAME="SFMB0003"
+elif [ "$(scutil --get ComputerName)" == 'SCMBCG' ]; then
+	NAME="SFMB0004"
+elif [ "$(scutil --get ComputerName)" == 'SCMBCD' ]; then
+	NAME="SFMB0005"
+elif [ "$(scutil --get ComputerName)" == 'SCMB84' ]; then
+	NAME="SFMB0006"
+elif [ "$(scutil --get ComputerName)" == 'NCMB91' ]; then
+	NAME="SFMB0007"
+elif [ "$(scutil --get ComputerName)" == 'SCMB74' ]; then
+	NAME="SFMB0008"
+elif [ "$(scutil --get ComputerName)" == 'SCMBAK' ]; then
+	NAME="SFMB0009"
+elif [ "$(scutil --get ComputerName)" == 'SCMBAE' ]; then
+	NAME="SFMB0010"
+elif [ "$(scutil --get ComputerName)" == 'SCMBCK' ]; then
+	NAME="SFMB0011"
+elif [ "$(scutil --get ComputerName)" == 'SCMBBO' ]; then
+	NAME="SFMB0012"
+elif [ "$(scutil --get ComputerName)" == 'SCMBCC' ]; then
+	NAME="SFMB0013"
+elif [ "$(scutil --get ComputerName)" == 'SCMBBD' ]; then
+	NAME="SFMB0014"
+elif [ "$(scutil --get ComputerName)" == 'SCMBBK' ]; then
+	NAME="SFMB0015"
+elif [ "$(scutil --get ComputerName)" == 'SCMB95' ]; then
+	NAME="SFMB0016"
+elif [ "$(scutil --get ComputerName)" == 'SCMBBY' ]; then
+	NAME="SFMB0017"
+elif [ "$(scutil --get ComputerName)" == 'SCMBCB' ]; then
+	NAME="SFMB0018"
+elif [ "$(scutil --get ComputerName)" == 'SCMB79' ]; then
+	NAME="SFMB0019"
+elif [ "$(scutil --get ComputerName)" == 'SCMB98' ]; then
+	NAME="SFMB0020"
+elif [ "$(scutil --get ComputerName)" == 'SCMBBG' ]; then
+	NAME="SFMB0021"
+elif [ "$(scutil --get ComputerName)" == 'SCMBAJ' ]; then
+	NAME="SAMB0009"
+elif [ "$(scutil --get ComputerName)" == 'SCMBBM' ]; then
+	NAME="SFMB0023"
+elif [ "$(scutil --get ComputerName)" == 'SCMBCI' ]; then
+	NAME="SFMB0024"
+elif [ "$(scutil --get ComputerName)" == 'SCMB93' ]; then
+	NAME="SFMB0025"
+elif [ "$(scutil --get ComputerName)" == 'SCMBAD' ]; then
+	NAME="SFMB0026"
+elif [ "$(scutil --get ComputerName)" == 'SCMBCF' ]; then
+	NAME="SFMB0027"
+elif [ "$(scutil --get ComputerName)" == 'SCMBBL' ]; then
+	NAME="SFMB0028"
+elif [ "$(scutil --get ComputerName)" == 'SCMB99' ]; then
+	NAME="SFMB0029"
+elif [ "$(scutil --get ComputerName)" == 'SCMBBX' ]; then
+	NAME="SFMB0030"
+elif [ "$(scutil --get ComputerName)" == 'SCMBBP' ]; then
+	NAME="SFMB0031"
+elif [ "$(scutil --get ComputerName)" == 'SCMBBF' ]; then
+	NAME="SFMB0032"
+elif [ "$(scutil --get ComputerName)" == 'SCMBAC' ]; then
+	NAME="SFMB0033"
+elif [ "$(scutil --get ComputerName)" == 'NCMB92' ]; then
+	NAME="SFMBLOAN"
+elif [ "$(scutil --get ComputerName)" == 'SCMB96' ]; then
+	NAME="SFMB0034"
+elif [ "$(scutil --get ComputerName)" == 'NCMB82' ]; then
+	NAME="SFMB0035"
+elif [ "$(scutil --get ComputerName)" == 'SCMBBJ' ]; then
+	NAME="SFMB0036"
+elif [ "$(scutil --get ComputerName)" == 'SCMBBE' ]; then
+	NAME="SFMB0037"
+elif [ "$(scutil --get ComputerName)" == 'SCMBCH' ]; then
+	NAME="SFMB0038"
+elif [ "$(scutil --get ComputerName)" == 'SCMBAA' ]; then
+	NAME="SFMB0039"
+elif [ "$(scutil --get ComputerName)" == 'SCMBBA' ]; then
+	NAME="SFMB0040"
+elif [ "$(scutil --get ComputerName)" == 'SCMB68' ]; then
+	NAME="SFMB0041"
+elif [ "$(scutil --get ComputerName)" == 'SCMB94' ]; then
+	NAME="SFMB0042"
+elif [ "$(scutil --get ComputerName)" == 'SCMBCE' ]; then
+	NAME="SFMB0043"
+elif [ "$(scutil --get ComputerName)" == 'SCMBBI' ]; then
+	NAME="SFMB0044"
+elif [ "$(scutil --get ComputerName)" == 'SCMBCJ' ]; then
+	NAME="SFMB0045"
+elif [ "$(scutil --get ComputerName)" == 'SCMBBZ' ]; then
+	NAME="SFMB0046"
+elif [ "$(scutil --get ComputerName)" == 'SCCHAPEL' ]; then
+	NAME="SIDE0001"
+elif [ "$(scutil --get ComputerName)" == 'NCIM07' ]; then
+	NAME="SIDE0002"
+elif [ "$(scutil --get ComputerName)" == 'SCMM01' ]; then
+	NAME="SPDE0001"
+elif [ "$(scutil --get ComputerName)" == 'SCMB20' ]; then
+	NAME="SS1A0001"
+elif [ "$(scutil --get ComputerName)" == 'SCMB17' ]; then
+	NAME="SS1B0001"
+elif [ "$(scutil --get ComputerName)" == 'SCMB18' ]; then
+	NAME="SS2A0001"
+elif [ "$(scutil --get ComputerName)" == 'SCMB52' ]; then
+	NAME="SSCA0001"
+elif [ "$(scutil --get ComputerName)" == 'SCMB56' ]; then
+	NAME="SSCA0002"
+elif [ "$(scutil --get ComputerName)" == 'SCMB60' ]; then
+	NAME="SSCA0003"
+elif [ "$(scutil --get ComputerName)" == 'SCMB85' ]; then
+	NAME="SSCA0004"
+elif [ "$(scutil --get ComputerName)" == 'SCMB87' ]; then
+	NAME="SSCA0005"
+elif [ "$(scutil --get ComputerName)" == 'SCMB88' ]; then
+	NAME="SSCA0006"
+elif [ "$(scutil --get ComputerName)" == 'SCMB91' ]; then
+	NAME="SSCA0007"
+elif [ "$(scutil --get ComputerName)" == 'SCMB89' ]; then
+	NAME="SSCA0008"
+elif [ "$(scutil --get ComputerName)" == 'SCMBAT' ]; then
+	NAME="SSCA0009"
+elif [ "$(scutil --get ComputerName)" == 'SCMBAU' ]; then
+	NAME="SSCA0010"
+elif [ "$(scutil --get ComputerName)" == 'SCMBAW' ]; then
+	NAME="SSCA0011"
+elif [ "$(scutil --get ComputerName)" == 'SCMBAX' ]; then
+	NAME="SSCA0012"
+elif [ "$(scutil --get ComputerName)" == 'SCMBAY' ]; then
+	NAME="SSCA0013"
+elif [ "$(scutil --get ComputerName)" == 'SCMB67' ]; then
+	NAME="SSCA0014"
+elif [ "$(scutil --get ComputerName)" == 'SCMBAZ' ]; then
+	NAME="SSCA0015"
+elif [ "$(scutil --get ComputerName)" == 'SCMBBQ' ]; then
+	NAME="SSCA0016"
+elif [ "$(scutil --get ComputerName)" == 'SCMBBR' ]; then
+	NAME="SSCA0017"
+elif [ "$(scutil --get ComputerName)" == 'SCMBBS' ]; then
+	NAME="SSCA0018"
+elif [ "$(scutil --get ComputerName)" == 'SCMBBT' ]; then
+	NAME="SSCA0019"
+elif [ "$(scutil --get ComputerName)" == 'SCMBBU' ]; then
+	NAME="SSCA0020"
+elif [ "$(scutil --get ComputerName)" == 'SCMBBV' ]; then
+	NAME="SSCA0021"
+elif [ "$(scutil --get ComputerName)" == 'SCMBBW' ]; then
+	NAME="SSCA0022"
+elif [ "$(scutil --get ComputerName)" == 'SCMB86' ]; then
+	NAME="SSCA0023"
+elif [ "$(scutil --get ComputerName)" == 'SCMBBH' ]; then
+	NAME="SSCA0024"
+elif [ "$(scutil --get ComputerName)" == 'SCIM63' ]; then
+	NAME="SFDE0002"
+elif [ "$(scutil --get ComputerName)" == 'SCIM31' ]; then
+	NAME="SSJL0002"
+elif [ "$(scutil --get ComputerName)" == 'SCIM32' ]; then
+	NAME="SSJL0003"
+elif [ "$(scutil --get ComputerName)" == 'SCIM33' ]; then
+	NAME="SSJL0004"
+elif [ "$(scutil --get ComputerName)" == 'SCIM34' ]; then
+	NAME="SSJL0005"
+elif [ "$(scutil --get ComputerName)" == 'SCIM35' ]; then
+	NAME="SSJL0006"
+elif [ "$(scutil --get ComputerName)" == 'SCIM36' ]; then
+	NAME="SSJL0007"
+elif [ "$(scutil --get ComputerName)" == 'SCIM37' ]; then
+	NAME="SSJL0008"
+elif [ "$(scutil --get ComputerName)" == 'SCIM38' ]; then
+	NAME="SSJL0009"
+elif [ "$(scutil --get ComputerName)" == 'SCIM39' ]; then
+	NAME="SSJL0010"
+elif [ "$(scutil --get ComputerName)" == 'SCIM40' ]; then
+	NAME="SSJL0011"
+elif [ "$(scutil --get ComputerName)" == 'SCIM41' ]; then
+	NAME="SSJL0012"
+elif [ "$(scutil --get ComputerName)" == 'SCIM42' ]; then
+	NAME="SSJL0013"
+elif [ "$(scutil --get ComputerName)" == 'SCIM43' ]; then
+	NAME="SSJL0014"
+elif [ "$(scutil --get ComputerName)" == 'SCIM44' ]; then
+	NAME="SSJL0015"
+elif [ "$(scutil --get ComputerName)" == 'SCIM45' ]; then
+	NAME="SSJL0016"
+elif [ "$(scutil --get ComputerName)" == 'SCIM46' ]; then
+	NAME="SSJL0017"
+elif [ "$(scutil --get ComputerName)" == 'SCIM47' ]; then
+	NAME="SSJL0018"
+elif [ "$(scutil --get ComputerName)" == 'SCIM48' ]; then
+	NAME="SSJL0019"
+elif [ "$(scutil --get ComputerName)" == 'SCIM49' ]; then
+	NAME="SSJL0020"
+elif [ "$(scutil --get ComputerName)" == 'SCIM50' ]; then
+	NAME="SSJL0021"
+elif [ "$(scutil --get ComputerName)" == 'SCIM51' ]; then
+	NAME="SSJL0022"
+elif [ "$(scutil --get ComputerName)" == 'SCIM52' ]; then
+	NAME="SSJL0023"
+elif [ "$(scutil --get ComputerName)" == 'SCIM53' ]; then
+	NAME="SSJL0024"
+elif [ "$(scutil --get ComputerName)" == 'SCIM54' ]; then
+	NAME="SSJL0025"
+elif [ "$(scutil --get ComputerName)" == 'SCIM55' ]; then
+	NAME="SSJL0026"
+elif [ "$(scutil --get ComputerName)" == 'SCIM56' ]; then
+	NAME="SFDE0003"
+elif [ "$(scutil --get ComputerName)" == 'SCIM57' ]; then
+	NAME="SSLI0002"
+elif [ "$(scutil --get ComputerName)" == 'SCIM58' ]; then
+	NAME="SSLI0003"
+elif [ "$(scutil --get ComputerName)" == 'SCIM59' ]; then
+	NAME="SSLI0004"
+elif [ "$(scutil --get ComputerName)" == 'SCIM60' ]; then
+	NAME="SSLI0005"
+elif [ "$(scutil --get ComputerName)" == 'SCIM61' ]; then
+	NAME="SSLI0006"
+elif [ "$(scutil --get ComputerName)" == 'SCIM62' ]; then
+	NAME="SSLI0007"
+elif [ "$(scutil --get ComputerName)" == 'SCIM65' ]; then
+	NAME="SSSL0001"
+elif [ "$(scutil --get ComputerName)" == 'SCIM66' ]; then
+	NAME="SSSL0002"
+elif [ "$(scutil --get ComputerName)" == 'SCIM67' ]; then
+	NAME="SSSL0003"
+elif [ "$(scutil --get ComputerName)" == 'SCIM68' ]; then
+	NAME="SSSL0004"
+elif [ "$(scutil --get ComputerName)" == 'SCIM69' ]; then
+	NAME="SSSL0005"
+elif [ "$(scutil --get ComputerName)" == 'SCIM70' ]; then
+	NAME="SSSL0006"
+elif [ "$(scutil --get ComputerName)" == 'SCIM71' ]; then
+	NAME="SSSL0007"
+elif [ "$(scutil --get ComputerName)" == 'SCIM72' ]; then
+	NAME="SSSL0008"
+elif [ "$(scutil --get ComputerName)" == 'SCIM73' ]; then
+	NAME="SSSL0009"
+elif [ "$(scutil --get ComputerName)" == 'SCIM74' ]; then
+	NAME="SSSL0010"
+elif [ "$(scutil --get ComputerName)" == 'SCIM75' ]; then
+	NAME="SSSL0011"
+elif [ "$(scutil --get ComputerName)" == 'SCIM76' ]; then
+	NAME="SSSL0012"
+elif [ "$(scutil --get ComputerName)" == 'SCIM77' ]; then
+	NAME="SSSL0013"
+elif [ "$(scutil --get ComputerName)" == 'SCIM78' ]; then
+	NAME="SSSL0014"
+elif [ "$(scutil --get ComputerName)" == 'SCIM79' ]; then
+	NAME="SSSL0015"
+elif [ "$(scutil --get ComputerName)" == 'SCIM80' ]; then
+	NAME="SSSL0016"
+elif [ "$(scutil --get ComputerName)" == 'SCIM81' ]; then
+	NAME="SSSL0017"
+elif [ "$(scutil --get ComputerName)" == 'SCIM82' ]; then
+	NAME="SSSL0018"
+elif [ "$(scutil --get ComputerName)" == 'SCIM83' ]; then
+	NAME="SSSL0019"
+elif [ "$(scutil --get ComputerName)" == 'SCIM84' ]; then
+	NAME="SSSL0020"
+elif [ "$(scutil --get ComputerName)" == 'SCIM85' ]; then
+	NAME="SSSL0021"
+elif [ "$(scutil --get ComputerName)" == 'SCIM86' ]; then
+	NAME="SSSL0022"
+elif [ "$(scutil --get ComputerName)" == 'SCIM87' ]; then
+	NAME="SSSL0023"
+elif [ "$(scutil --get ComputerName)" == 'SCIM88' ]; then
+	NAME="SSSL0024"
+else
+	echo "Computer name not found."
+	exit 1
+fi
+
+scutil --set ComputerName "$NAME"
+scutil --set HostName "$NAME"
+scutil --set LocalHostName "$NAME"
+
+exit 0</string>
+	<key>unattended_install</key>
+	<true/>
+	<key>uninstall_method</key>
+	<string>uninstall_script</string>
+	<key>uninstallable</key>
+	<false/>
+	<key>version</key>
+	<string>1.0</string>
+</dict>
+</plist>
