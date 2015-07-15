@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>_metadata</key>
+	<dict>
+		<key>created_by</key>
+		<string>aanklewicz</string>
+		<key>creation_date</key>
+		<date>2014-12-04T16:30:39Z</date>
+		<key>munki_version</key>
+		<string>2.0.1.2253</string>
+		<key>os_version</key>
+		<string>10.7.0</string>
+	</dict>
+	<key>autoremove</key>
+	<true/>
+	<key>catalogs</key>
+	<array>
+		<string>testing</string>
+	</array>
+	<key>category</key>
+	<string>Communication</string>
+	<key>description</key>
+	<string>Removes FirstClass Client from Macs.</string>
+	<key>developer</key>
+	<string>Crestwood</string>
+	<key>display_name</key>
+	<string>First Class Removal</string>
+	<key>icon_name</key>
+	<string>FirstClass.png</string>
+	<key>installcheck_script</key>
+	<string>#!/bin/sh
+
+### Check to see if the file "FirstClass.app" exists
+if [ -e /Applications/FirstClass.app ]; then
+	### File exists, we can exit 1 since nothing needs to be done.
+	exit 1;
+else
+	### File does not exist, we will exit 0 so that it gets re-installed.
+	exit 0;
+fi</string>
+	<key>installer_type</key>
+	<string>nopkg</string>
+	<key>minimum_os_version</key>
+	<string>10.4.0</string>
+	<key>name</key>
+	<string>FirstClassRemoval</string>
+	<key>postinstall_script</key>
+	<string></string>
+	<key>unattended_install</key>
+	<true/>
+	<key>unattended_uninstall</key>
+	<true/>
+	<key>uninstall_method</key>
+	<string>uninstall_script</string>
+	<key>uninstall_script</key>
+	<string>#!/bin/sh
+rm -R /Applications/FirstClass.app</string>
+	<key>uninstallable</key>
+	<true/>
+	<key>version</key>
+	<string>1.0</string>
+</dict>
+</plist>
